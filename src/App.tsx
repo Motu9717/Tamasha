@@ -7,13 +7,15 @@ interface VideoCardProps {
   title: string;
   type?: 'youtube' | 'drive';
   aspect?: '16/9' | '9/16';
+  thumbnail?: string;
+  rotation?: number;
 }
 
-const VideoCard: React.FC<VideoCardProps> = ({ videoId, title, type = 'youtube', aspect = '16/9' }) => {
+const VideoCard: React.FC<VideoCardProps> = ({ videoId, title, type = 'youtube', aspect = '16/9', thumbnail, rotation = 0 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const thumbnailUrl = type === 'youtube' 
+  const thumbnailUrl = thumbnail || (type === 'youtube' 
     ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
-    : `https://drive.google.com/thumbnail?id=${videoId}&sz=w1280`;
+    : `https://drive.google.com/thumbnail?id=${videoId}&sz=w1280`);
 
   const embedUrl = type === 'youtube'
     ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`
@@ -36,7 +38,14 @@ const VideoCard: React.FC<VideoCardProps> = ({ videoId, title, type = 'youtube',
             <img 
               src={thumbnailUrl} 
               alt={title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              style={{ 
+                transform: rotation ? `rotate(${rotation}deg)` : undefined,
+                width: rotation ? '56.25%' : '100%',
+                height: rotation ? '177.77%' : '100%',
+                left: rotation ? '21.875%' : '0',
+                top: rotation ? '-38.88%' : '0'
+              }}
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
@@ -68,11 +77,35 @@ const VideoCard: React.FC<VideoCardProps> = ({ videoId, title, type = 'youtube',
 
 export default function App() {
   const videos: VideoCardProps[] = [
-    { videoId: '1YQk04TLScd-_HaBR44VeJ4aBozILhgCv', title: 'Sasta Vloger Part -1', type: 'drive', aspect: '9/16' },
-    { videoId: '16zYFT0scKfv_iHS9RyrWAfxBCMgRokC5', title: 'Sasta Vloger Part -2', type: 'drive', aspect: '9/16' },
+    { 
+      videoId: '1JaAVkzIDYEA0q5xaL4tVyx_QvbJo5wUY', 
+      title: 'Sasta Vloger Part -1', 
+      type: 'drive', 
+      aspect: '16/9',
+      thumbnail: 'https://drive.google.com/thumbnail?id=1gPnTThIUbGLDCi_6hL4GABPV0j8Ho29-&sz=w1920'
+    },
+    { 
+      videoId: '1PLfPG2RT2lsrBbCZulYoQjIgfzH8Xci-', 
+      title: 'Sasta Vloger Part -2', 
+      type: 'drive', 
+      aspect: '16/9',
+      thumbnail: 'https://drive.google.com/thumbnail?id=1C93rjdghnT1MMZr9KdgHKXGM0qcsYYOH&sz=w1920'
+    },
     { videoId: 'TlwJ1_KEUzA', title: 'Arjan Velly x I Wanna Be Your Slave', type: 'youtube', aspect: '16/9' },
-    { videoId: '1ZG1Pm0BGD57I7_fqfOcJTj3MyHYv3d3C', title: 'Trending Instagram Reel', type: 'drive', aspect: '9/16' },
-    { videoId: '1AAe2PoOvBdl5OVuw8BotkrSPshOJIu0M', title: 'Simple Edit', type: 'drive', aspect: '9/16' },
+    { 
+      videoId: '1ZG1Pm0BGD57I7_fqfOcJTj3MyHYv3d3C', 
+      title: 'Trending Instagram Reel', 
+      type: 'drive', 
+      aspect: '9/16',
+      thumbnail: 'https://drive.google.com/thumbnail?id=1YqHBCG_werIyT8-lwCm1uA2ylE1FsFQ6&sz=w1280'
+    },
+    { 
+      videoId: '1AAe2PoOvBdl5OVuw8BotkrSPshOJIu0M', 
+      title: 'Simple Edit', 
+      type: 'drive', 
+      aspect: '9/16',
+      thumbnail: 'https://drive.google.com/thumbnail?id=1YY3PxmUW0aF6l6JNGx0l6O8kpS2EaBCn&sz=w1280'
+    },
   ];
 
   return (
@@ -139,9 +172,9 @@ export default function App() {
           <div className="h-px flex-1 bg-white/10 mx-8 hidden md:block" />
         </div>
         
-        <div className="mb-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+        <div className="mb-24 grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
           {videos.slice(0, 3).map((video) => (
-            <div key={video.videoId} className={`w-full ${video.aspect === '16/9' ? 'max-w-4xl md:col-span-2 lg:col-span-2' : 'max-w-[400px]'}`}>
+            <div key={video.videoId} className={`w-full ${video.aspect === '16/9' ? 'max-w-4xl' : 'max-w-[400px]'}`}>
               <VideoCard {...video} />
             </div>
           ))}
