@@ -5,20 +5,29 @@ import { Play, Instagram, Facebook, Linkedin, Mail, Phone, ExternalLink } from '
 interface VideoCardProps {
   videoId: string;
   title: string;
+  type?: 'youtube' | 'drive';
+  aspect?: '16/9' | '9/16';
 }
 
-const VideoCard: React.FC<VideoCardProps> = ({ videoId, title }) => {
+const VideoCard: React.FC<VideoCardProps> = ({ videoId, title, type = 'youtube', aspect = '16/9' }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+  const thumbnailUrl = type === 'youtube' 
+    ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+    : `https://drive.google.com/thumbnail?id=${videoId}&sz=w1280`;
+
+  const embedUrl = type === 'youtube'
+    ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`
+    : `https://drive.google.com/file/d/${videoId}/preview`;
 
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.02, translateY: -5 }}
       viewport={{ once: true }}
-      className="group relative bg-[#1a1a1d] rounded-2xl overflow-hidden border border-white/5 hover:border-violet-500/50 transition-all duration-500 shadow-2xl"
+      className={`group relative bg-[#1a1a1d] rounded-[2rem] overflow-hidden border border-white/5 hover:border-violet-500/50 transition-all duration-300 shadow-2xl hover:shadow-violet-500/10 w-full mx-auto`}
     >
-      <div className="aspect-video relative overflow-hidden">
+      <div className={`relative overflow-hidden ${aspect === '9/16' ? 'aspect-[9/16]' : 'aspect-video'} m-2 rounded-[1.5rem]`}>
         {!isPlaying ? (
           <div 
             className="w-full h-full cursor-pointer group"
@@ -30,36 +39,40 @@ const VideoCard: React.FC<VideoCardProps> = ({ videoId, title }) => {
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
               <motion.div 
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="w-16 h-16 bg-violet-600 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(138,43,226,0.6)]"
+                className="w-20 h-20 bg-violet-600 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(138,43,226,0.5)]"
               >
-                <Play className="text-white fill-white ml-1" size={32} />
+                <Play className="text-white fill-white ml-1" size={40} />
               </motion.div>
             </div>
           </div>
         ) : (
           <iframe
             className="w-full h-full"
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+            src={embedUrl}
             title={title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           />
         )}
       </div>
-      <div className="p-4">
-        <h3 className="text-lg font-medium text-white/90 group-hover:text-violet-400 transition-colors">{title}</h3>
+      <div className="px-6 py-6 text-left">
+        <h3 className="text-xl font-bold text-white tracking-tight">{title}</h3>
       </div>
     </motion.div>
   );
 };
 
 export default function App() {
-  const videos = [
-    { id: 'TlwJ1_KEUzA', title: 'Arjan Velly x I Wanna Be Your Slave' },
+  const videos: VideoCardProps[] = [
+    { videoId: '1YQk04TLScd-_HaBR44VeJ4aBozILhgCv', title: 'Sasta Vloger Part -1', type: 'drive', aspect: '9/16' },
+    { videoId: '16zYFT0scKfv_iHS9RyrWAfxBCMgRokC5', title: 'Sasta Vloger Part -2', type: 'drive', aspect: '9/16' },
+    { videoId: 'TlwJ1_KEUzA', title: 'Arjan Velly x I Wanna Be Your Slave', type: 'youtube', aspect: '16/9' },
+    { videoId: '1ZG1Pm0BGD57I7_fqfOcJTj3MyHYv3d3C', title: 'Trending Instagram Reel', type: 'drive', aspect: '9/16' },
+    { videoId: '1AAe2PoOvBdl5OVuw8BotkrSPshOJIu0M', title: 'Simple Edit', type: 'drive', aspect: '9/16' },
   ];
 
   return (
@@ -122,13 +135,28 @@ export default function App() {
       {/* Portfolio Section */}
       <section className="py-20 px-6 max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-12">
-          <h2 className="text-3xl font-bold text-white">My Recent Edits</h2>
+          <h2 className="text-3xl font-bold text-white">Featured Edits</h2>
           <div className="h-px flex-1 bg-white/10 mx-8 hidden md:block" />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {videos.map((video) => (
-            <VideoCard key={video.id} videoId={video.id} title={video.title} />
+        <div className="mb-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+          {videos.slice(0, 3).map((video) => (
+            <div key={video.videoId} className={`w-full ${video.aspect === '16/9' ? 'max-w-4xl md:col-span-2 lg:col-span-2' : 'max-w-[400px]'}`}>
+              <VideoCard {...video} />
+            </div>
+          ))}
+        </div>
+
+        <div className="flex items-center justify-between mb-12">
+          <h2 className="text-3xl font-bold text-white">Recent Reels</h2>
+          <div className="h-px flex-1 bg-white/10 mx-8 hidden md:block" />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+          {videos.slice(3).map((video) => (
+            <div key={video.videoId} className="w-full max-w-[320px]">
+              <VideoCard {...video} />
+            </div>
           ))}
         </div>
       </section>
