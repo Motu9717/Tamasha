@@ -137,7 +137,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-white to-violet-500 bg-clip-text text-transparent tracking-tight"
           >
-            Short-Form Editor Portfolio
+            Ved Portfolio
           </motion.h1>
           
           <motion.p 
@@ -168,7 +168,7 @@ export default function App() {
       {/* Portfolio Section */}
       <section className="py-20 px-6 max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-12">
-          <h2 className="text-3xl font-bold text-white">Featured Edits</h2>
+          <h2 className="text-3xl font-bold text-white">Long Form & landscape Video</h2>
           <div className="h-px flex-1 bg-white/10 mx-8 hidden md:block" />
         </div>
         
@@ -181,7 +181,7 @@ export default function App() {
         </div>
 
         <div className="flex items-center justify-between mb-12">
-          <h2 className="text-3xl font-bold text-white">Recent Reels</h2>
+          <h2 className="text-3xl font-bold text-white">Reel & Sort Form Video</h2>
           <div className="h-px flex-1 bg-white/10 mx-8 hidden md:block" />
         </div>
         
@@ -202,21 +202,38 @@ export default function App() {
           
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {[
-              { icon: Instagram, label: 'Instagram', href: 'https://instagram.com/YOUR_USERNAME' },
-              { icon: Facebook, label: 'Facebook', href: 'https://facebook.com/YOUR_USERNAME' },
-              { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/in/YOUR_USERNAME' },
-              { icon: Mail, label: 'Email', href: 'mailto:your@email.com' },
-              { icon: Phone, label: 'Call', href: 'tel:+1234567890' },
+              { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/ved_tamashaaa/' },
+              { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61585087603860' },
+              { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/mithlesh-kumar-1a4353327/' },
+              { icon: Mail, label: 'Email', href: 'https://mail.google.com/mail/?view=cm&fs=1&to=motu8920@gmail.com' },
+              { 
+                icon: Phone, 
+                label: 'Call', 
+                href: '#', 
+                onClick: (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  const msg = document.getElementById('phone-unavailable-msg');
+                  if (msg) {
+                    msg.classList.remove('opacity-0', 'translate-y-2');
+                    msg.classList.add('opacity-100', 'translate-y-0');
+                    setTimeout(() => {
+                      msg.classList.add('opacity-0', 'translate-y-2');
+                      msg.classList.remove('opacity-100', 'translate-y-0');
+                    }, 3000);
+                  }
+                } 
+              },
             ].map((item, idx) => (
               <motion.a
                 key={item.label}
                 href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={item.onClick}
+                target={item.href !== '#' ? "_blank" : undefined}
+                rel={item.href !== '#' ? "noopener noreferrer" : undefined}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: idx * 0.1 }}
-                className="flex flex-col items-center gap-3 group"
+                className="flex flex-col items-center gap-3 group cursor-pointer"
               >
                 <div className="w-14 h-14 bg-zinc-800 rounded-2xl flex items-center justify-center group-hover:bg-violet-600 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                   <item.icon className="text-zinc-400 group-hover:text-white transition-colors" size={24} />
@@ -225,11 +242,18 @@ export default function App() {
               </motion.a>
             ))}
           </div>
+          
+          <div 
+            id="phone-unavailable-msg" 
+            className="mt-8 text-violet-400 font-medium opacity-0 translate-y-2 transition-all duration-300 pointer-events-none"
+          >
+            Unavailable, please try other social handles.
+          </div>
         </div>
       </section>
 
       <footer className="py-12 text-center text-zinc-600 text-sm border-t border-white/5">
-        <p>&copy; {new Date().getFullYear()} Short-Form Editor Portfolio. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Ved Portfolio. All rights reserved.</p>
       </footer>
     </div>
   );
