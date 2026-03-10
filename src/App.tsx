@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, Instagram, Facebook, Linkedin, Mail, Phone, ExternalLink } from 'lucide-react';
+import { Play, Instagram, Facebook, Linkedin, Mail, Phone, ExternalLink, ChevronRight, ChevronLeft, TrendingUp, BarChart3, Image as ImageIcon, Users, Wrench, Rocket, CheckCircle2 } from 'lucide-react';
 
 interface VideoCardProps {
   videoId: string;
@@ -72,6 +72,246 @@ const VideoCard: React.FC<VideoCardProps> = ({ videoId, title, type = 'youtube',
         <h3 className="text-xl font-bold text-white tracking-tight">{title}</h3>
       </div>
     </motion.div>
+  );
+};
+
+const SliderSection: React.FC = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const slides = [
+    {
+      id: 'results',
+      title: 'Results Dashboard',
+      subtitle: 'Account Growth Case Study',
+      icon: <TrendingUp className="text-emerald-400" size={32} />,
+      content: (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+              <p className="text-zinc-400 text-sm uppercase tracking-wider mb-1">Total Reach</p>
+              <h4 className="text-3xl font-bold text-white">3.3M+</h4>
+              <p className="text-emerald-400 text-xs mt-1">Accounts reached in 90 days</p>
+            </div>
+            <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+              <p className="text-zinc-400 text-sm uppercase tracking-wider mb-1">Engagement</p>
+              <h4 className="text-3xl font-bold text-white">430K</h4>
+              <p className="text-emerald-400 text-xs mt-1">Engaged audience members</p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+              <p className="text-zinc-400 text-sm uppercase tracking-wider mb-1">Growth</p>
+              <h4 className="text-3xl font-bold text-white">13K → 43K</h4>
+              <p className="text-emerald-400 text-xs mt-1">Follower growth milestone</p>
+            </div>
+            <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+              <p className="text-zinc-400 text-sm uppercase tracking-wider mb-1">Viral Impact</p>
+              <h4 className="text-3xl font-bold text-white">2.4M</h4>
+              <p className="text-emerald-400 text-xs mt-1">Reach from non-followers</p>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'proof-1',
+      title: 'Viral Reels',
+      subtitle: 'Growth Proof #1',
+      icon: <BarChart3 className="text-violet-400" size={32} />,
+      content: (
+        <div className="relative group rounded-3xl overflow-hidden border border-white/10 shadow-2xl mx-auto w-fit">
+          <img 
+            src="https://drive.google.com/thumbnail?id=1UgqlfvbLW8FyIXFYEjUdeHKvWA43kTVO&sz=w1600" 
+            alt="Viral Reels Proof"
+            className="block max-w-full max-h-[550px] w-auto h-auto"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <p className="text-white text-sm font-medium">Detailed view of viral reel performance and reach metrics.</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'proof-2',
+      title: 'Monthly Insights',
+      subtitle: 'Growth Proof #2',
+      icon: <BarChart3 className="text-violet-400" size={32} />,
+      content: (
+        <div className="relative group rounded-3xl overflow-hidden border border-white/10 shadow-2xl mx-auto w-fit">
+          <img 
+            src="https://drive.google.com/thumbnail?id=1obULYVC54_r_YZeHyWQzEsXTo26iI34-&sz=w1600" 
+            alt="Monthly Insights Proof"
+            className="block max-w-full max-h-[550px] w-auto h-auto"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <p className="text-white text-sm font-medium">Comprehensive monthly analytics showing consistent upward trends.</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'proof-3',
+      title: 'AI Cover Images',
+      subtitle: 'Growth Proof #3',
+      icon: <ImageIcon className="text-violet-400" size={32} />,
+      content: (
+        <div className="relative group rounded-3xl overflow-hidden border border-white/10 shadow-2xl mx-auto w-fit">
+          <img 
+            src="https://drive.google.com/thumbnail?id=122FLmBvQ_Zb_vRlR1g0n_Bd71nvR5JlG&sz=w1600" 
+            alt="AI Cover Images Proof"
+            className="block max-w-full max-h-[550px] w-auto h-auto"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <p className="text-white text-sm font-medium">High-CTR AI generated covers that drive massive engagement.</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'proof-4',
+      title: 'Account Growth',
+      subtitle: 'Growth Proof #4',
+      icon: <Users className="text-violet-400" size={32} />,
+      content: (
+        <div className="relative group rounded-3xl overflow-hidden border border-white/10 shadow-2xl mx-auto w-fit">
+          <img 
+            src="https://drive.google.com/thumbnail?id=1Dl581NeV1eyh5R3_F5lLZsquL7J6sF4x&sz=w1600" 
+            alt="Account Growth Proof"
+            className="block max-w-full max-h-[550px] w-auto h-auto"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <p className="text-white text-sm font-medium">Follower growth visualization over the last 30 days.</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'tools',
+      title: 'Tech Stack',
+      subtitle: 'Professional Software & AI',
+      icon: <Wrench className="text-orange-400" size={32} />,
+      content: (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="flex items-start gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+            <div className="p-2 bg-violet-500/20 rounded-lg text-violet-400"><Play size={20} /></div>
+            <div>
+              <h5 className="font-bold text-white">Editing</h5>
+              <p className="text-zinc-400 text-sm">Premiere Pro / CapCut</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+            <div className="p-2 bg-blue-500/20 rounded-lg text-blue-400"><ImageIcon size={20} /></div>
+            <div>
+              <h5 className="font-bold text-white">Design</h5>
+              <p className="text-zinc-400 text-sm">Adobe Photoshop</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+            <div className="p-2 bg-emerald-500/20 rounded-lg text-emerald-400"><Users size={20} /></div>
+            <div>
+              <h5 className="font-bold text-white">AI Tools</h5>
+              <p className="text-zinc-400 text-sm">Firefly, ChatGPT, Gemini</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+            <div className="p-2 bg-amber-500/20 rounded-lg text-amber-400"><BarChart3 size={20} /></div>
+            <div>
+              <h5 className="font-bold text-white">Analytics</h5>
+              <p className="text-zinc-400 text-sm">Instagram Insights</p>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'strategy',
+      title: 'Viral Strategy',
+      subtitle: 'Content Optimization Framework',
+      icon: <Rocket className="text-blue-400" size={32} />,
+      content: (
+        <div className="space-y-4">
+          {[
+            'Reel editing optimization for high retention',
+            'Psychological hook editing techniques',
+            'AI generated high-CTR cover images',
+            'Data-driven consistent posting strategy'
+          ].map((item, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10"
+            >
+              <CheckCircle2 className="text-emerald-500 shrink-0" size={24} />
+              <span className="text-zinc-200 font-medium">{item}</span>
+            </motion.div>
+          ))}
+        </div>
+      )
+    }
+  ];
+
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  return (
+    <section className="py-24 px-6 max-w-5xl mx-auto overflow-hidden">
+      <div className="flex items-center justify-between mb-12">
+        <h2 className="text-3xl font-bold text-white">Results & Strategy</h2>
+        <div className="flex gap-2">
+          <button 
+            onClick={prevSlide}
+            className="p-3 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition-colors text-white"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button 
+            onClick={nextSlide}
+            className="p-3 bg-violet-600 hover:bg-violet-500 rounded-full shadow-lg shadow-violet-600/20 transition-colors text-white"
+          >
+            <ChevronRight size={24} />
+          </button>
+        </div>
+      </div>
+
+      <div className="relative min-h-[450px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+            className="bg-[#1a1a1d] rounded-[2.5rem] p-8 md:p-12 border border-white/5 shadow-2xl"
+          >
+            <div className="flex flex-col md:flex-row gap-12 items-start">
+              <div className="w-full md:w-1/3">
+                <div className="mb-6">{slides[currentSlide].icon}</div>
+                <h3 className="text-4xl font-bold text-white mb-2 tracking-tight">{slides[currentSlide].title}</h3>
+                <p className="text-zinc-500 font-medium uppercase tracking-widest text-xs">{slides[currentSlide].subtitle}</p>
+                
+                <div className="mt-12 flex gap-2">
+                  {slides.map((_, i) => (
+                    <div 
+                      key={i} 
+                      className={`h-1.5 rounded-full transition-all duration-500 ${i === currentSlide ? 'w-8 bg-violet-500' : 'w-2 bg-white/10'}`} 
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="w-full md:w-2/3">
+                {slides[currentSlide].content}
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </section>
   );
 };
 
@@ -193,6 +433,8 @@ export default function App() {
           ))}
         </div>
       </section>
+
+      <SliderSection />
 
       {/* Contact Section */}
       <section id="contact" className="py-24 px-6 bg-[#151518] border-t border-white/5">
