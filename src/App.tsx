@@ -332,6 +332,7 @@ export default function App() {
       thumbnail: 'https://drive.google.com/thumbnail?id=1C93rjdghnT1MMZr9KdgHKXGM0qcsYYOH&sz=w1920'
     },
     { videoId: 'TlwJ1_KEUzA', title: 'Arjan Velly x I Wanna Be Your Slave', type: 'youtube', aspect: '16/9' },
+    { videoId: 'OQmhbD-NMh0', title: 'Dhurandhar - Revenge II Ranveer Singh II', type: 'youtube', aspect: '16/9' },
     { 
       videoId: '1ZG1Pm0BGD57I7_fqfOcJTj3MyHYv3d3C', 
       title: 'Trending Instagram Reel', 
@@ -347,6 +348,9 @@ export default function App() {
       thumbnail: 'https://drive.google.com/thumbnail?id=1YY3PxmUW0aF6l6JNGx0l6O8kpS2EaBCn&sz=w1280'
     },
   ];
+
+  const longFormVideos = videos.filter(video => video.aspect === '16/9');
+  const shortFormVideos = videos.filter(video => video.aspect === '9/16');
 
   return (
     <div className="min-h-screen font-sans selection:bg-violet-500/30">
@@ -413,7 +417,7 @@ export default function App() {
         </div>
         
         <div className="mb-24 grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
-          {videos.slice(0, 3).map((video) => (
+          {longFormVideos.map((video) => (
             <div key={video.videoId} className={`w-full ${video.aspect === '16/9' ? 'max-w-4xl' : 'max-w-[400px]'}`}>
               <VideoCard {...video} />
             </div>
@@ -426,7 +430,7 @@ export default function App() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-          {videos.slice(3).map((video) => (
+          {shortFormVideos.map((video) => (
             <div key={video.videoId} className="w-full max-w-[320px]">
               <VideoCard {...video} />
             </div>
